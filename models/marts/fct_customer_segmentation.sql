@@ -2,7 +2,7 @@ with rfm as (
     select * from {{ ref('fct_rfm') }}
 ),
 customer_spending as (
-    select * from {{ ref('int__customer_metrics') }}
+    select * from {{ ref('int__customer_spendings') }}
 ),
 rfm_segments as (
     select

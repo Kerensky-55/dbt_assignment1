@@ -1,5 +1,5 @@
 with customer_spending as (
-    select * from {{ ref('int__customer_metrics') }}
+    select * from {{ ref('int__customer_spendings') }}
 ),
 latest_purchase as (
     select
