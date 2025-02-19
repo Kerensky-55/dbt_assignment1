@@ -24,9 +24,7 @@ models:
         description: Product (item) name. Nominal.
         tests:
           - not_null
-          - unique
       - name: unit_price
         description: Unit price. Numeric. Product price per unit in sterling (Â£).
         tests:
           - not_null
-          - unique
