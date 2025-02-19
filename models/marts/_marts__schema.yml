@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: stores unique customers id and their country
+    columns:
+      - name: customer_id
+        description: Customer number. Nominal. A 5-digit integral number uniquely assigned to each customer.
+        tests:
+          - unique
+          - not_null
+      - name: country
+        description: Country name. Nominal. The name of the country where a customer resides. 
+        tests:
+          - not_null
+  - name: dim_products
+    columns:
+      - name: stock_code
+        description: Product (item) code. Nominal. A 5-digit integral number uniquely assigned to each distinct product.
+        tests:
+          - not_null
+          - unique
+      - name: description
+        description: Product (item) name. Nominal.
+        tests:
+          - not_null
+          - unique
+      - name: unit_price
+        description: Unit price. Numeric. Product price per unit in sterling (Â£).
+        tests:
+          - not_null
+          - unique

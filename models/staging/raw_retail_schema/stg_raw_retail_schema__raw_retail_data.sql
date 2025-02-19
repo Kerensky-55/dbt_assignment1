@@ -11,6 +11,7 @@ select
     country
 from {{ ref(table_name) }}
 where
+    LEFT(Invoice_No, 1) = 'C' and
     quantity >= 0 and
 {%- for column in columns %}
     {{ column }} is not null
