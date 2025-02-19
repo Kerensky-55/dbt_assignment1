@@ -5,7 +5,7 @@ latest_purchase as (
     select
         customer_id,
         latest_purchase
-    from {{ ref("int__customer_life") }}
+    from {{ ref("int__customer_lifetime") }}
 ),
 current_date as (
     select MAX(InvoiceDate) as today from {{ ref('stg_raw_retail_schema__raw_retail_data') }}

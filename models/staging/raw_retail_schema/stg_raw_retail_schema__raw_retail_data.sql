@@ -12,10 +12,13 @@ select
 from {{ ref("base_raw_retail_schema__raw_retail_data") }}
 where
     LEFT(Invoice_No, 1) != 'C' and
-    quantity >= 0 and
+    quantity > 0 and
+    unit_price > 0 and
 {%- for column in columns %}
     {{ column }} is not null
     {% if not loop.last -%}
         and
     {%- endif -%}
-{% endfor %}
+{%- endfor -%}
+    and 
+    stock_code rlike '^[0-9]+$'
