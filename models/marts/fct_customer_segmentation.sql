@@ -1,24 +1,37 @@
-with rfm as (
-    select * from {{ ref('fct_rfm') }}
+WITH customer_spending AS (
+    SELECT * FROM {{ ref('int__customer_spendings') }}
 ),
-customer_spending as (
-    select * from {{ ref('int__customer_spendings') }}
+latest_purchase AS (
+    SELECT
+        customer_id,
+        latest_purchase
+    FROM {{ ref("int__customer_lifetime") }}
 ),
-rfm_segments as (
-    select
-        r.customer_id,
-        r.recency,
-        r.frequency,
-        r.monetary_value,
-        c.country,
-        case
-            when r.recency <= 30 AND r.frequency >= 15 then 'VIP Customers'
-            when r.recency > 90 AND r.frequency < 3 then 'Churned Customers'
-            when r.frequency >= 10 then 'Loyal Customers'
-            else 'Occasional Buyers'
-        end as customer_segment
-    from rfm r
-    JOIN customer_spending c ON r.customer_id = c.customer_id
+current_date AS (
+    SELECT MAX(InvoiceDate) AS today FROM {{ ref('stg_raw_retail_schema__raw_retail_data') }}
+),
+rfm_tiers AS (
+    SELECT
+        customer_id,
+        CAST(SUBSTRING(recency_tier, 8) AS INTEGER) AS recency_tier, 
+        CAST(SUBSTRING(frequency_tier, 8) AS INTEGER) AS frequency_tier,
+        CAST(SUBSTRING(monetary_tier, 8) AS INTEGER) AS monetary_tier,
+        recency,
+        frequency,
+        monetary_value
+    FROM {{ ref("fct_rfm_tiers") }}
+),
+customer_segments AS (
+    SELECT
+        customer_id,
+        CASE 
+            WHEN recency_tier = 1 AND frequency_tier = 1 AND monetary_tier = 1 THEN 'Best Customers'
+            WHEN recency_tier = 1 AND frequency_tier = 4 AND monetary_tier IN (1, 2) THEN 'High-spending New Customers'
+            WHEN recency_tier = 1 AND frequency_tier = 1 AND monetary_tier IN (3, 4) THEN 'Lowest-Spending Active Loyal Customers'
+            WHEN recency_tier = 4 AND frequency_tier IN (1, 2) AND monetary_tier IN (1, 2) THEN 'Churned Best Customers'
+            ELSE 'Other Customers'
+        END AS customer_segment
+    FROM rfm_tiers
 )
 
-SELECT * FROM rfm_segments
+SELECT * FROM customer_segments
