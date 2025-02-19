@@ -1,40 +1,24 @@
-with customer_spending as (
-    select * from {{ ref("int__customer_spendings") }}
-),
-latest_purchase as (
+with rfm_score as (
     select
-        customer_id,
-        latest_purchase
-    from {{ ref("int__customer_lifetime") }}
-),
-current_date AS (
-    SELECT MAX(InvoiceDate) AS today FROM {{ ref("stg_raw_retail_schema__raw_retail_data") }}
-),
-rfm as (
-    select * from {{ ref("fct_rfm") }}
-),
-rfm_tiers AS (
-    SELECT 
         customer_id,
         recency,
         frequency,
         monetary_value,
-        CAST(NTILE(4) OVER (ORDER BY recency ASC) AS STRING) AS recency_tier, 
-        CAST(NTILE(4) OVER (ORDER BY frequency DESC) AS STRING) AS frequency_tier,
-        CAST(NTILE(4) OVER (ORDER BY monetary_value DESC) AS STRING) AS monetary_tier
-    FROM rfm
+        cast(ntile(4) over (order by recency asc) as string) as recency_score, 
+        cast(ntile(4) over (order by frequency desc) as string) as frequency_score,
+        cast(ntile(4) over (order by monetary_value desc) as string) as monetary_score
+    from {{ ref("fct_rfm") }}
 ),
-final as (
+rfm_tiers AS (
     select
         customer_id,
         recency, 
-        CONCAT('R-Tier-', recency_tier) AS recency_tier,
+        CONCAT('R-Tier-', recency_score) AS recency_tier,
         frequency, 
-        CONCAT('F-Tier-', frequency_tier) AS frequency_tier,
+        CONCAT('F-Tier-', frequency_score) AS frequency_tier,
         monetary_value,
-        CONCAT('M-Tier-', monetary_tier) AS monetary_tier
-    FROM rfm_tiers
-
+        CONCAT('M-Tier-', monetary_score) AS monetary_tier
+    FROM rfm_score
 )
 
-select * from final
+select * from rfm_tiers

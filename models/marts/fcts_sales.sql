@@ -3,7 +3,7 @@ with sales as (
         invoice_no,
         customer_id,
         stock_code,
-        invoicedate,
+        invoice_date,
         quantity,
         unit_price,
         round((quantity * unit_price), 2) as revenue

@@ -1,22 +1,22 @@
-WITH ranked_products AS (
-    SELECT
+with ranked_products as (
+    select
         stock_code,
         description,
         unit_price,
-        invoicedate,
-        ROW_NUMBER() OVER (PARTITION BY stock_code ORDER BY invoicedate DESC) AS row_num
-    FROM
+        invoice_date,
+        row_number() over (partition by stock_code order by invoice_date desc) as row_num
+    from
         {{ ref('stg_raw_retail_schema__raw_retail_data') }}
 ),
-final as (
-    SELECT
+products as (
+    select
         stock_code,
         description,
         unit_price
-    FROM
+    from
         ranked_products
-    WHERE
+    where
         row_num = 1
 )
 
-select * from final
+select * from products

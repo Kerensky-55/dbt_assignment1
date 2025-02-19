@@ -5,7 +5,7 @@ select
     stockcode as stock_code, 
     TRIM(description) AS description, 
     quantity, 
-    TO_DATE(invoicedate) AS invoicedate,
+    TO_DATE(invoicedate) AS invoice_date,
     unitprice as unit_price, 
     customerid as customer_id, 
     country

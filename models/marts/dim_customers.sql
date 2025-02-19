@@ -2,12 +2,12 @@ with ranked_customers as (
     select
         customer_id,
         country,
-        invoicedate,
-        row_number() over (partition by customer_id order by invoicedate desc) as row_num
+        invoice_date,
+        row_number() over (partition by customer_id order by invoice_date desc) as row_num
     from
         {{ ref('stg_raw_retail_schema__raw_retail_data') }}
 ),
-final as (
+customer as (
     select
         customer_id,
         country
@@ -18,4 +18,4 @@ final as (
     order by customer_id
 )
 
-select * from final
+select * from customer
