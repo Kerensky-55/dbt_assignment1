@@ -4,11 +4,11 @@ models:
   - name: stg_raw_retail_schema__raw_retail_data
     description: cleaned data from source
     columns:
-          - name: InvoiceNo
+          - name: Invoice_No
             description: Invoice number. Nominal. A 6-digit integral number uniquely assigned to each transaction. If this code starts with the letter 'c', it indicates a cancellation.
             tests:
               - not_null
-          - name: StockCode
+          - name: Stock_Code
             description: Product (item) code. Nominal. A 5-digit integral number uniquely assigned to each distinct product.
             tests:
               - not_null 
@@ -24,11 +24,11 @@ models:
             description: Invice date and time. Numeric. The day and time when a transaction was generated.
             tests:
               - not_null
-          - name: UnitPrice
+          - name: Unit_Price
             description: Unit price. Numeric. Product price per unit in sterling (Â£).
             tests:
               - not_null 
-          - name: CustomerID
+          - name: Customer_ID
             description: Customer number. Nominal. A 5-digit integral number uniquely assigned to each customer.
             tests:
               - not_null
