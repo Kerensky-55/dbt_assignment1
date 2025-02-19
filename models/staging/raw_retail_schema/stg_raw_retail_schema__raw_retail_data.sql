@@ -9,9 +9,9 @@ select
     unitprice as unit_price, 
     customerid as customer_id, 
     country
-from {{ ref(table_name) }}
+from {{ ref("base_raw_retail_schema__raw_retail_data") }}
 where
-    LEFT(Invoice_No, 1) = 'C' and
+    LEFT(Invoice_No, 1) != 'C' and
     quantity >= 0 and
 {%- for column in columns %}
     {{ column }} is not null
