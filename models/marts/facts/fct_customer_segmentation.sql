@@ -23,11 +23,11 @@ rfm_tiers as (
     select
         customer_id,
         recency, 
-        concat('r-tier-', recency_score) as recency_tier,
+        concat('R-tier-', recency_score) as recency_tier,
         frequency, 
-        concat('f-tier-', frequency_score) as frequency_tier,
+        concat('F-tier-', frequency_score) as frequency_tier,
         monetary_value,
-        concat('m-tier-', monetary_score) as monetary_tier,
+        concat('M-tier-', monetary_score) as monetary_tier,
         recency_score,
         frequency_score,
         monetary_score
@@ -44,11 +44,11 @@ customer_segments as (
         monetary_value,
         monetary_tier,
         case 
-            when recency_score = 1 and frequency_score = 1 and monetary_score = 1 then 'best customer'
-            when recency_score = 1 and frequency_score = 4 and monetary_score in (1, 2) then 'high-spending new customer'
-            when recency_score = 1 and frequency_score = 1 and monetary_score in (3, 4) then 'lowest-spending active loyal customer'
-            when recency_score = 4 and frequency_score in (1, 2) and monetary_score in (1, 2) then 'churned best customer'
-            else 'other customer'
+            when recency_score = 1 and frequency_score = 1 and monetary_score = 1 then 'Best Customer'
+            when recency_score = 1 and frequency_score = 4 and monetary_score in (1, 2) then 'High-Spending New Customer'
+            when recency_score = 1 and frequency_score = 1 and monetary_score in (3, 4) then 'Lowest-Spending Active Loyal Customer'
+            when recency_score = 4 and frequency_score in (1, 2) and monetary_score in (1, 2) then 'Churned Best Customer'
+            else 'Normal Customer'
         end as customer_segment
     from rfm_tiers
 )

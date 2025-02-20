@@ -12,7 +12,7 @@ latest_purchase as (
     from {{ ref("int__customer_lifetime") }}
 ),
 current_date as (
-    select max(invoice_date) as today from {{ ref("fcts_sales") }}
+    select max(invoice_date) as today from {{ ref("fct_sales") }}
 ),
 rfm as (
     select

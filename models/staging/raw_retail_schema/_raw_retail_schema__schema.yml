@@ -21,7 +21,7 @@ models:
             tests:
               - not_null
           - name: Invoice_Date
-            description: Invice date and time. Numeric. The day and time when a transaction was generated.
+            description: Invoice date and time. Numeric. The day and time when a transaction was generated.
             tests:
               - not_null
           - name: Unit_Price
