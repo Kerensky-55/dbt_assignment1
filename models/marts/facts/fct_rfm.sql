@@ -1,14 +1,18 @@
 with customer_spending as (
-    select * from {{ ref("fct_customer_spendings") }}
+    select
+        customer_id,
+        total_amount_spent,
+        total_orders
+    from {{ ref("int__customer_spendings") }}
 ),
 latest_purchase as (
     select
         customer_id,
         latest_purchase
-    from {{ ref("fct_customer_lifetime") }}
+    from {{ ref("int__customer_lifetime") }}
 ),
 current_date as (
-    select max(invoice_date) as today from {{ ref('stg_raw_retail_schema__raw_retail_data') }}
+    select max(invoice_date) as today from {{ ref("stg_raw_retail_schema__raw_retail_data") }}
 ),
 rfm as (
     select
@@ -22,3 +26,4 @@ rfm as (
 )
 
 select * from rfm
+
