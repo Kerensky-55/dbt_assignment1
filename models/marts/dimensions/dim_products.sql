@@ -5,13 +5,13 @@ with latest_unit_price as (
         unit_price,
         invoice_date,
         row_number() over (partition by stock_code order by invoice_date desc) as row_num
-    from {{ ref('stg_raw_retail_schema__raw_retail_data') }}
+    from {{ ref("fcts_sales") }}
 ),
 total_sold as (
     select
         stock_code,
         sum(quantity) as total_quantity_sold
-    from {{ ref("stg_raw_retail_schema__raw_retail_data") }}
+    from {{ ref("fcts_sales") }}
     group by stock_code
 ),
 products as (
@@ -26,4 +26,3 @@ products as (
 )
 
 select * from products
-where stock_code = '23403'
