@@ -29,7 +29,7 @@ customers AS (
         cs.total_orders,
         seg.customer_segment
     FROM customer_lifetime cl
-    LEFT JOIN customer_spendings cs ON cl.customer_id = cs.customer_id
-    LEFT JOIN customer_segments seg ON cl.customer_id = seg.customer_id
+    JOIN customer_spendings cs ON cl.customer_id = cs.customer_id
+    JOIN customer_segments seg ON cl.customer_id = seg.customer_id
 )
 SELECT * FROM customers

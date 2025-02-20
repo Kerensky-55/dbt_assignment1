@@ -19,11 +19,19 @@ rfm as (
         c.customer_id,
         datediff(day, l.latest_purchase, cd.today) as recency,
         c.total_orders as frequency,
-        c.total_amount_spent as monetary_value,
+        c.total_amount_spent as monetary_value
     from customer_spending c
     join latest_purchase l on c.customer_id = l.customer_id
     join current_date cd on 1=1
+),
+
+final_rfm as (
+    select
+        customer_id,
+        recency,
+        frequency,
+        monetary_value,
+    from rfm
 )
 
-select * from rfm
-
+select * from final_rfm
