@@ -1,3 +1,9 @@
+{{ config(
+    materialized='incremental',
+    unique_key=['customer_id'],
+    cluster_by=['customer_id']
+) }}
+
 with customer_spending as (
     select
         customer_id,
@@ -5,15 +11,18 @@ with customer_spending as (
         total_orders
     from {{ ref("int__customer_spendings") }}
 ),
+
 latest_purchase as (
     select
         customer_id,
         latest_purchase
     from {{ ref("int__customer_lifetime") }}
 ),
+
 current_date as (
     select max(invoice_date) as today from {{ ref("fct_sales") }}
 ),
+
 rfm as (
     select
         c.customer_id,
@@ -23,15 +32,9 @@ rfm as (
     from customer_spending c
     join latest_purchase l on c.customer_id = l.customer_id
     join current_date cd on 1=1
-),
-
-final_rfm as (
-    select
-        customer_id,
-        recency,
-        frequency,
-        monetary_value,
-    from rfm
+    {% if is_incremental() %}
+    where l.latest_purchase > (select max(latest_purchase) from {{ this }})
+    {% endif %}
 )
 
-select * from final_rfm
+select * from rfm
