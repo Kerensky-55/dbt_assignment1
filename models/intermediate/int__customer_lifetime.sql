@@ -1,3 +1,5 @@
+{{ config(materialized='ephemeral') }}
+
 with customer_lifetime as (
     select
         customer_id,

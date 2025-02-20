@@ -1,3 +1,8 @@
+{{ config(
+    cluster_by=['customer_id']
+    )
+}}
+
 with customer_lifetime as (
     select
         customer_id,

@@ -1,6 +1,7 @@
 {{ config(
     materialized='incremental',
-    unique_key=['invoice_no', 'stock_code']
+    unique_key=['invoice_no', 'stock_code'],
+    cluster_by=['invoice_date','revenue']
 ) }}
 
 with sales as (
