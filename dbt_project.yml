@@ -43,4 +43,12 @@ models:
         +materialized: table
     base:
       raw_retail_schema:
+        +materialized: view
+    intermediate:
+      +materialized: table
+    marts:
+      facts:
         +materialized: table
+      dimensions:
+        +materialized: table
+
