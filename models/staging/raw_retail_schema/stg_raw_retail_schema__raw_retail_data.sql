@@ -14,7 +14,7 @@ select
     unitprice as unit_price, 
     customerid as customer_id, 
     country
-from {{ ref("base_raw_retail_schema__raw_retail_data") }}
+from {{ ref("src_raw_retail_schema__raw_retail_data") }}
 where
     LEFT(Invoice_No, 1) != 'C' and
     quantity > 0 and
