@@ -1,6 +1,6 @@
 {{ config(
     materialized='incremental',
-    unique_key=['invoice_no', 'stock_code', 'invoice_date']
+    unique_key=['invoice_no', 'stock_code']
     ) 
 }}
 {%- set table_name = 'src_raw_retail_schema__raw_retail_data' -%}
@@ -28,5 +28,5 @@ where
     and 
     stock_code rlike '^[0-9]+$'
     {% if is_incremental() %}
-        and invoice_date>(select max(invoice_date) from {{ this }})
+        and invoice_date >= (select max(invoice_date) from {{ this }})
     {% endif %}

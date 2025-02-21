@@ -44,7 +44,7 @@ models:
         +materialized: table
     source:
       raw_retail_schema:
-        +materialized: table
+        +materialized: view
     intermediate:
       +materialized: table
     marts:
