@@ -42,9 +42,9 @@ models:
     staging:
       raw_retail_schema:
         +materialized: table
-    base:
+    source:
       raw_retail_schema:
-        +materialized: view
+        +materialized: table
     intermediate:
       +materialized: table
     marts:
@@ -52,7 +52,6 @@ models:
         +materialized: table
         +post-hook: 
           - "grant select ON {{ this }} to role analyst;"
-
       dimensions:
         +materialized: table
 
