@@ -37,7 +37,8 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   assignment1:
-    # Applies to all files under models/example/
+    +pre-hook: ["{{ audit_pre_hook(this.identifier) }}"]
+    +post-hook: ["{{ audit_post_hook(this.identifier) }}"]
     staging:
       raw_retail_schema:
         +materialized: table
@@ -49,6 +50,9 @@ models:
     marts:
       facts:
         +materialized: table
+        +post-hook: 
+          - "grant select ON {{ this }} to role analyst;"
+
       dimensions:
         +materialized: table
 
