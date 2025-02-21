@@ -1,9 +1,3 @@
-{{ config(
-    materialized='incremental',
-    unique_key=['customer_id'],
-    cluster_by=['customer_id']
-) }}
-
 with customer_spending as (
     select
         customer_id,
@@ -32,9 +26,6 @@ rfm as (
     from customer_spending c
     join latest_purchase l on c.customer_id = l.customer_id
     join current_date cd on 1=1
-    {% if is_incremental() %}
-    where l.latest_purchase > (select max(latest_purchase) from {{ this }})
-    {% endif %}
 )
 
 select * from rfm

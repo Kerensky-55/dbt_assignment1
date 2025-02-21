@@ -1,4 +1,4 @@
-{% docs customer_segments_facts %}
+{% docs customer_segments_dimension %}
 
 One of the following values: 
 
