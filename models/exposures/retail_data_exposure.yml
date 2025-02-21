@@ -1,6 +1,6 @@
 exposures:
-  - name: Customer Data
-    label: customer data
+  - name: Customer_Data
+    label: Customer Data
     type: dashboard
     maturity: high
     url: https://lookerstudio.google.com/reporting/c2ed2ed7-6e3a-442e-90fc-f9d19f577c18
@@ -11,8 +11,8 @@ exposures:
       name: Ankur Falari
       email: ankurfalari55@gmail.com
 
-  - name: Product Data
-    label: product_data
+  - name: Product_Data
+    label: Product Data
     type: dashboard
     maturity: high
     url: https://lookerstudio.google.com/reporting/c2ed2ed7-6e3a-442e-90fc-f9d19f577c18
