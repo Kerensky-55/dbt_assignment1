@@ -30,7 +30,7 @@ models:
         tests:
           - not_null
       - name: customer_segment
-        description: Segment classification based on RFM analysis. "{{ doc('customer_segments') }}"
+        description: Segment classification based on RFM analysis. "{{ doc('customer_segments_dimension') }}"
         tests:
           - not_null
 
